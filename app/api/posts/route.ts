@@ -373,6 +373,16 @@ export async function POST(request: Request) {
 
     const allowedStatuses = new Set(["draft", "review", "published"]);
     const status = allowedStatuses.has(payload.status || "") ? payload.status! : "draft";
+    // Publishing is a human act. A machine token may create drafts and items
+    // for review, but never put content in front of the public: the token
+    // lives in an automation environment, and anything holding it could
+    // otherwise publish unreviewed content under the organisation's name.
+    if (status === "published" && !staffUser) {
+      return Response.json(
+        { error: "Publishing requires a signed-in administrator" },
+        { status: 403 },
+      );
+    }
     if (status === "published" && staffUser?.role === "editor") {
       return Response.json(
         { error: "Administrator approval is required to publish" },
