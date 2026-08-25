@@ -1,0 +1,410 @@
+/* ==========================================================================
+   PDF Admin Panel — design layer
+   Brings the staff panel onto the same system as the redesigned public site:
+   the same warm ink/paper palette, Inter + Fraunces, soft elevation and
+   rounded geometry. This is an override layer over globals.css rather than a
+   rewrite, so every admin component keeps its existing markup and behaviour.
+
+   Everything here is scoped to .admin-shell / .admin-login-shell, so nothing
+   leaks into the public pages.
+   ========================================================================== */
+
+.admin-shell,
+.admin-login-shell {
+  --a-ink: #17150f;
+  --a-ink-soft: #3c372d;
+  --a-mute: #6d6558;
+  --a-paper: #f6f3ec;
+  --a-panel: #ffffff;
+  --a-line: rgba(23, 21, 15, 0.12);
+  --a-line-strong: rgba(23, 21, 15, 0.22);
+  --a-red: #bf1530;
+  --a-gold: #e8b23c;
+  --a-green: #2f7d63;
+  --a-blue: #2a5f8f;
+
+  --a-r-sm: 8px;
+  --a-r: 12px;
+  --a-r-lg: 18px;
+
+  --a-shadow-1: 0 1px 2px rgba(23, 21, 15, 0.05), 0 8px 24px -16px rgba(23, 21, 15, 0.3);
+  --a-shadow-2: 0 2px 6px rgba(23, 21, 15, 0.07), 0 20px 40px -22px rgba(23, 21, 15, 0.4);
+
+  --a-sans: "Inter", "Noto Sans Myanmar", system-ui, Helvetica, Arial, sans-serif;
+  --a-display: "Fraunces", Georgia, serif;
+  --a-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  font-family: var(--a-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.admin-shell *,
+.admin-login-shell * {
+  font-family: inherit;
+}
+
+.admin-shell :focus-visible,
+.admin-login-shell :focus-visible {
+  outline: 2px solid var(--a-red);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ------------------------------------------------------------------ shell */
+
+.admin-shell {
+  background: var(--a-paper);
+  color: var(--a-ink);
+  grid-template-columns: 268px minmax(0, 1fr);
+}
+
+/* ---------------------------------------------------------------- sidebar */
+
+.admin-shell .admin-sidebar {
+  padding: 24px 16px;
+  background: linear-gradient(180deg, #1d1a12, #17150f 60%);
+  color: #f6f1e6;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+.admin-shell .admin-wordmark {
+  padding: 4px 10px 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.admin-shell .admin-sidebar nav {
+  margin-top: 22px;
+  gap: 3px;
+}
+.admin-shell .admin-sidebar nav a,
+.admin-shell .admin-sidebar nav button {
+  padding: 11px 13px;
+  border-radius: var(--a-r-sm);
+  color: rgba(246, 241, 230, 0.66);
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0;
+  transition: background 0.16s var(--a-ease), color 0.16s var(--a-ease);
+}
+.admin-shell .admin-sidebar nav a:hover,
+.admin-shell .admin-sidebar nav button:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #fdfbf6;
+}
+.admin-shell .admin-sidebar nav a span,
+.admin-shell .admin-sidebar nav button span {
+  font-size: 10.5px;
+  color: rgba(246, 241, 230, 0.4);
+}
+.admin-shell .admin-sidebar nav a.active,
+.admin-shell .admin-sidebar nav button.active {
+  background: var(--a-gold);
+  color: #17150f;
+  font-weight: 600;
+  box-shadow: 0 6px 18px -10px rgba(232, 178, 60, 0.9);
+}
+.admin-shell .admin-sidebar nav a.active span,
+.admin-shell .admin-sidebar nav button.active span {
+  color: rgba(23, 21, 15, 0.62);
+}
+.admin-shell .sidebar-note,
+.admin-shell .editor-chip {
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--a-r);
+  background: rgba(255, 255, 255, 0.04);
+}
+.admin-shell .sidebar-note p,
+.admin-shell .editor-chip p {
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.admin-shell .sidebar-note small,
+.admin-shell .editor-chip small {
+  font-size: 11px;
+  line-height: 1.5;
+  color: rgba(246, 241, 230, 0.5);
+}
+
+/* ------------------------------------------------------------------- main */
+
+.admin-shell .admin-main {
+  padding: 28px clamp(20px, 3.5vw, 48px) 96px;
+}
+
+/* section rail / quick jumps */
+
+.admin-shell .admin-quick-jumps button {
+  border-radius: 999px;
+  border: 1px solid var(--a-line-strong);
+  background: var(--a-panel);
+  color: var(--a-ink-soft);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0;
+  padding: 8px 15px;
+  transition: background 0.16s var(--a-ease), box-shadow 0.16s var(--a-ease);
+}
+.admin-shell .admin-quick-jumps button:hover {
+  background: var(--a-paper);
+  box-shadow: var(--a-shadow-1);
+}
+.admin-shell .admin-rail-arrow {
+  border-radius: 999px;
+  border: 1px solid var(--a-line-strong);
+  background: var(--a-panel);
+}
+
+/* ------------------------------------------------------------------ cards */
+
+.admin-shell .composer-panel,
+.admin-shell .activity-panel,
+.admin-shell .content-table,
+.admin-shell .operations-panel,
+.admin-shell .team-access,
+.admin-shell .home-pathway-editor {
+  padding: clamp(20px, 2.4vw, 28px);
+  border: 1px solid var(--a-line);
+  border-radius: var(--a-r-lg);
+  background: var(--a-panel);
+  box-shadow: var(--a-shadow-1);
+}
+
+.admin-shell .content-table.is-focus,
+.admin-shell .operations-panel.is-focus,
+.admin-shell .composer-panel.is-focus {
+  box-shadow: var(--a-shadow-2), 0 0 0 2px rgba(191, 21, 48, 0.18);
+}
+
+.admin-shell .panel-heading {
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--a-line);
+}
+.admin-shell .panel-heading h2 {
+  font-family: var(--a-display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+.admin-shell .panel-heading > span,
+.admin-shell .panel-heading > button {
+  padding: 6px 12px;
+  border: 1px solid var(--a-line-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--a-mute);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+/* ------------------------------------------------------------------ forms */
+
+.admin-shell label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--a-ink-soft);
+}
+.admin-shell input[type="text"],
+.admin-shell input[type="email"],
+.admin-shell input[type="password"],
+.admin-shell input[type="url"],
+.admin-shell input[type="number"],
+.admin-shell input[type="date"],
+.admin-shell input[type="search"],
+.admin-shell textarea,
+.admin-shell select {
+  padding: 10px 12px;
+  border: 1px solid var(--a-line-strong);
+  border-radius: var(--a-r-sm);
+  background: var(--a-panel);
+  color: var(--a-ink);
+  font-size: 14px;
+  transition: border-color 0.16s var(--a-ease), box-shadow 0.16s var(--a-ease);
+}
+.admin-shell input:focus,
+.admin-shell textarea:focus,
+.admin-shell select:focus {
+  outline: none;
+  border-color: var(--a-red);
+  box-shadow: 0 0 0 3px rgba(191, 21, 48, 0.1);
+}
+.admin-shell .field-guidance {
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--a-mute);
+}
+
+/* ---------------------------------------------------------------- buttons */
+
+.admin-shell .composer-actions {
+  border-top: 1px solid var(--a-line);
+  padding-top: 16px;
+}
+.admin-shell .composer-actions button,
+.admin-shell .button-save,
+.admin-shell .button-review,
+.admin-shell .button-secondary {
+  min-height: 40px;
+  padding: 0 20px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0;
+  transition: transform 0.16s var(--a-ease), box-shadow 0.16s var(--a-ease),
+    background 0.16s var(--a-ease);
+}
+.admin-shell .button-save,
+.admin-shell .button-secondary {
+  border: 1px solid var(--a-line-strong);
+  background: var(--a-panel);
+  color: var(--a-ink);
+}
+.admin-shell .button-save:hover,
+.admin-shell .button-secondary:hover {
+  background: var(--a-paper);
+  transform: translateY(-1px);
+  box-shadow: var(--a-shadow-1);
+}
+.admin-shell .button-review {
+  border: 1px solid var(--a-ink);
+  background: var(--a-ink);
+  color: #fdfbf6;
+}
+.admin-shell .button-review:hover {
+  background: #2a2619;
+  transform: translateY(-1px);
+  box-shadow: var(--a-shadow-1);
+}
+.admin-shell .button-danger-text {
+  border-radius: 999px;
+  color: var(--a-red);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------- notices */
+
+.admin-shell .admin-notice {
+  padding: 13px 16px;
+  border: 1px solid rgba(42, 95, 143, 0.25);
+  border-left: 3px solid var(--a-blue);
+  border-radius: var(--a-r);
+  background: #eef4fb;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--a-ink-soft);
+}
+
+/* ----------------------------------------------------------------- tables */
+
+.admin-shell .report-table-wrap {
+  border: 1px solid var(--a-line);
+  border-radius: var(--a-r);
+  overflow-x: auto;
+}
+.admin-shell .report-table th {
+  background: var(--a-paper);
+  color: var(--a-mute);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.admin-shell .report-table td {
+  font-size: 13.5px;
+  border-bottom: 1px solid var(--a-line);
+}
+.admin-shell .report-table tbody tr:hover {
+  background: rgba(232, 178, 60, 0.07);
+}
+
+/* ------------------------------------------------------------ login screen */
+
+.admin-login-shell {
+  background:
+    radial-gradient(900px 500px at 80% -10%, rgba(232, 178, 60, 0.18), transparent 60%),
+    var(--a-paper);
+}
+.admin-login-shell .admin-login-brand {
+  background: linear-gradient(160deg, #1d1a12, #17150f 65%);
+  color: #f6f1e6;
+}
+.admin-login-shell .admin-login-brand h1 {
+  font-family: var(--a-display);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.06;
+  text-transform: none;
+}
+.admin-login-shell .admin-login-card {
+  border: 1px solid var(--a-line);
+  border-radius: var(--a-r-lg);
+  background: var(--a-panel);
+  box-shadow: var(--a-shadow-2);
+  padding: clamp(28px, 3.5vw, 44px);
+}
+.admin-login-shell .admin-login-card h2 {
+  font-family: var(--a-display);
+  font-size: clamp(28px, 3.2vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.admin-login-shell .admin-login-card input {
+  padding: 11px 13px;
+  border: 1px solid var(--a-line-strong);
+  border-radius: var(--a-r-sm);
+  background: var(--a-panel);
+  font-size: 15px;
+}
+.admin-login-shell .admin-login-card input:focus {
+  outline: none;
+  border-color: var(--a-red);
+  box-shadow: 0 0 0 3px rgba(191, 21, 48, 0.1);
+}
+.admin-login-shell .admin-login-card > button {
+  min-height: 46px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--a-red);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0;
+  box-shadow: 0 10px 24px -14px rgba(191, 21, 48, 0.9);
+  transition: transform 0.16s var(--a-ease), box-shadow 0.16s var(--a-ease),
+    background 0.16s var(--a-ease);
+}
+.admin-login-shell .admin-login-card > button:hover {
+  background: #a41028;
+  transform: translateY(-1px);
+}
+.admin-login-shell .admin-login-card > small {
+  font-size: 12.5px;
+  color: var(--a-mute);
+}
+
+/* ------------------------------------------------------------- responsive */
+
+@media (max-width: 900px) {
+  .admin-shell { grid-template-columns: 1fr; }
+  .admin-shell .admin-sidebar {
+    min-height: 0;
+    position: static;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .admin-shell .admin-sidebar nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .admin-shell .sidebar-note { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-shell *,
+  .admin-login-shell * {
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+  }
+}
