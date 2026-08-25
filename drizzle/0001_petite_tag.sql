@@ -1,0 +1,1 @@
+ALTER TABLE `posts` ADD `placement` text DEFAULT 'stories' NOT NULL;

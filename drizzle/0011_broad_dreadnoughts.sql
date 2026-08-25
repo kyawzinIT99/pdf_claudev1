@@ -1,0 +1,2 @@
+ALTER TABLE `site_home_settings` ADD `hero_image_url` text DEFAULT '/community-hero-group.jpg' NOT NULL;--> statement-breakpoint
+ALTER TABLE `site_home_settings` ADD `hero_image_alt` text DEFAULT 'Community members gathering together' NOT NULL;

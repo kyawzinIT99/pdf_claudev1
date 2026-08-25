@@ -1,0 +1,47 @@
+{
+  "instance": "https://n8n-al8a.srv1707349.hstgr.cloud",
+  "workflows": [
+    {
+      "name": "PDF Inquiry Alert",
+      "id": "Osw7iNK3EbH3xfq3",
+      "active": true,
+      "open": "https://n8n-al8a.srv1707349.hstgr.cloud/workflow/Osw7iNK3EbH3xfq3"
+    },
+    {
+      "name": "PDF Publish Distribution",
+      "id": "uIC6nshYube9MeAS",
+      "active": true,
+      "open": "https://n8n-al8a.srv1707349.hstgr.cloud/workflow/uIC6nshYube9MeAS"
+    },
+    {
+      "name": "PDF Subscribe Alert",
+      "id": "rNgOgvdCz1hQgILd",
+      "active": true,
+      "open": "https://n8n-al8a.srv1707349.hstgr.cloud/workflow/rNgOgvdCz1hQgILd"
+    },
+    {
+      "name": "PDF Event Mail",
+      "id": "Mmg3Sf95JRrrgkYN",
+      "active": true,
+      "open": "https://n8n-al8a.srv1707349.hstgr.cloud/workflow/Mmg3Sf95JRrrgkYN"
+    },
+    {
+      "name": "PDF Enquiry Follow-up Reminder",
+      "id": "5LmgndCMDcilyDs2",
+      "active": true,
+      "open": "https://n8n-al8a.srv1707349.hstgr.cloud/workflow/5LmgndCMDcilyDs2"
+    },
+    {
+      "name": "PDF Monthly Summary Report",
+      "id": "piX46e3qWg02dQ8i",
+      "active": true,
+      "open": "https://n8n-al8a.srv1707349.hstgr.cloud/workflow/piX46e3qWg02dQ8i"
+    },
+    {
+      "name": "PDF Subscriber Re-engagement Nudge",
+      "id": "xgy5KnIuInT0ink5",
+      "active": true,
+      "open": "https://n8n-al8a.srv1707349.hstgr.cloud/workflow/xgy5KnIuInT0ink5"
+    }
+  ]
+}

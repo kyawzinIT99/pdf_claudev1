@@ -1,0 +1,1625 @@
+/* ==========================================================================
+   PDF public design system — claude_v1
+   Warm editorial humanitarian shell. Class names are unchanged from the
+   previous newspaper build so every page component keeps working; the
+   tokens, rhythm, geometry and motion below are the redesign.
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap");
+
+.pdf-shell,
+.pdf-inner {
+  /* ink + paper */
+  --pdf-ink: #17150f;
+  --pdf-ink-soft: #3c372d;
+  --pdf-mute: #6d6558;
+  --pdf-paper: #faf7f1;
+  --pdf-paper-2: #f3eee4;
+  --pdf-panel: #ffffff;
+
+  /* hairlines */
+  --pdf-line: rgba(23, 21, 15, 0.12);
+  --pdf-line-strong: rgba(23, 21, 15, 0.24);
+
+  /* accents */
+  --pdf-red: #bf1530;
+  --pdf-red-soft: rgba(191, 21, 48, 0.08);
+  --pdf-yellow: #e8b23c;
+  --pdf-yellow-soft: #fdf3dc;
+  --pdf-green: #2f7d63;
+
+  /* geometry */
+  --pdf-r-sm: 10px;
+  --pdf-r: 16px;
+  --pdf-r-lg: 26px;
+  --pdf-pad: clamp(20px, 5vw, 56px);
+  --pdf-max: 1240px;
+  --pdf-gutter: max(var(--pdf-pad), calc((100% - var(--pdf-max)) / 2));
+
+  /* elevation */
+  --pdf-shadow-1: 0 1px 2px rgba(23, 21, 15, 0.05), 0 10px 30px -18px rgba(23, 21, 15, 0.35);
+  --pdf-shadow-2: 0 2px 4px rgba(23, 21, 15, 0.06), 0 26px 50px -24px rgba(23, 21, 15, 0.42);
+
+  /* type */
+  --pdf-display: "Fraunces", "IBM Plex Serif", Georgia, serif;
+  --pdf-sans: "Inter", "Noto Sans Myanmar", system-ui, Helvetica, Arial, sans-serif;
+  --pdf-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --pdf-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  background:
+    radial-gradient(1100px 520px at 82% -12%, rgba(232, 178, 60, 0.16), transparent 62%),
+    radial-gradient(760px 420px at -8% 4%, rgba(191, 21, 48, 0.07), transparent 60%),
+    var(--pdf-paper);
+  color: var(--pdf-ink);
+  font-family: var(--pdf-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+}
+
+html[lang="my"] .pdf-shell,
+html[lang="my"] .pdf-inner {
+  font-family: "Noto Sans Myanmar", var(--pdf-sans);
+}
+html[lang="my"] .pdf-wordmark small,
+html[lang="my"] .pdf-ticker,
+html[lang="my"] .pdf-kicker,
+html[lang="my"] .pdf-rail a {
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-family: "Noto Sans Myanmar", var(--pdf-sans);
+}
+
+.pdf-shell a,
+.pdf-inner a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.pdf-shell :focus-visible,
+.pdf-inner :focus-visible {
+  outline: 2px solid var(--pdf-red);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.pdf-shell ::selection,
+.pdf-inner ::selection {
+  background: var(--pdf-yellow);
+  color: var(--pdf-ink);
+}
+
+.pdf-shell img,
+.pdf-inner img {
+  max-width: 100%;
+}
+
+/* --------------------------------------------------------------- brand mark */
+
+.pdf-mark svg {
+  display: block;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px var(--pdf-line-strong), var(--pdf-shadow-1);
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------------- ticker */
+
+.pdf-ticker {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 9px var(--pdf-gutter);
+  background: var(--pdf-ink);
+  color: #f6f1e6;
+  font-family: var(--pdf-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.pdf-ticker span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pdf-ticker a {
+  flex: none;
+  color: var(--pdf-yellow);
+  border-bottom: 1px solid rgba(232, 178, 60, 0.45);
+  transition: border-color 0.2s var(--pdf-ease);
+}
+.pdf-ticker a:hover {
+  border-bottom-color: var(--pdf-yellow);
+}
+
+/* --------------------------------------------------------------- flag strip */
+
+.pdf-flag {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  height: 4px;
+}
+.pdf-flag i:nth-child(1) { background: var(--pdf-yellow); }
+.pdf-flag i:nth-child(2) { background: var(--pdf-green); }
+.pdf-flag i:nth-child(3) { background: var(--pdf-red); }
+
+/* ---------------------------------------------------------------- masthead */
+
+.pdf-masthead {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(250, 247, 241, 0.86);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid var(--pdf-line);
+}
+.pdf-masthead-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 14px var(--pdf-gutter);
+}
+.pdf-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.pdf-wordmark b {
+  display: block;
+  font-family: var(--pdf-display);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.pdf-wordmark small {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--pdf-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pdf-mute);
+}
+.pdf-masthead-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* language menu */
+
+.pdf-lang {
+  position: relative;
+  font-family: "Noto Sans Myanmar", var(--pdf-sans);
+}
+.pdf-lang > button,
+.pdf-burger {
+  background: var(--pdf-panel);
+  border: 1px solid var(--pdf-line-strong);
+  border-radius: 999px;
+  padding: 9px 16px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--pdf-ink);
+  cursor: pointer;
+  transition: background 0.2s var(--pdf-ease), box-shadow 0.2s var(--pdf-ease),
+    transform 0.15s var(--pdf-ease);
+}
+.pdf-lang > button:hover,
+.pdf-burger:hover {
+  background: var(--pdf-paper-2);
+  box-shadow: var(--pdf-shadow-1);
+}
+.pdf-lang > button:active,
+.pdf-burger:active {
+  transform: translateY(1px);
+}
+.pdf-lang [role="menu"] {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 210px;
+  display: grid;
+  padding: 6px;
+  background: var(--pdf-panel);
+  border: 1px solid var(--pdf-line);
+  border-radius: var(--pdf-r);
+  box-shadow: var(--pdf-shadow-2);
+  z-index: 5;
+  animation: pdf-pop 0.18s var(--pdf-ease) both;
+}
+.pdf-lang [role="menu"] button {
+  background: none;
+  border: 0;
+  border-radius: var(--pdf-r-sm);
+  text-align: left;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--pdf-ink);
+  cursor: pointer;
+  transition: background 0.15s var(--pdf-ease);
+}
+.pdf-lang [role="menu"] button:hover,
+.pdf-lang [role="menu"] button[aria-checked="true"] {
+  background: var(--pdf-yellow-soft);
+}
+
+@keyframes pdf-pop {
+  from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* buttons */
+
+.pdf-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--pdf-red);
+  color: #fff !important;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 11px 22px;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  box-shadow: 0 10px 22px -14px rgba(191, 21, 48, 0.9);
+  transition: transform 0.18s var(--pdf-ease), box-shadow 0.18s var(--pdf-ease),
+    background 0.18s var(--pdf-ease);
+}
+.pdf-cta:hover {
+  background: #a41028;
+  transform: translateY(-1px);
+  box-shadow: 0 16px 30px -16px rgba(191, 21, 48, 0.95);
+}
+.pdf-cta:active { transform: translateY(0); }
+
+.pdf-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--pdf-line-strong);
+  border-radius: 999px;
+  padding: 11px 22px;
+  font-weight: 600;
+  font-size: 15px;
+  background: var(--pdf-panel);
+  transition: background 0.18s var(--pdf-ease), transform 0.18s var(--pdf-ease),
+    box-shadow 0.18s var(--pdf-ease);
+}
+.pdf-ghost:hover {
+  background: var(--pdf-paper-2);
+  transform: translateY(-1px);
+  box-shadow: var(--pdf-shadow-1);
+}
+
+/* nav rail */
+
+.pdf-rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 0 var(--pdf-gutter) 12px;
+  border-top: 1px solid var(--pdf-line);
+  padding-top: 10px;
+  background: transparent;
+}
+.pdf-rail a {
+  position: relative;
+  padding: 9px 15px;
+  border: 0;
+  border-radius: 999px;
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--pdf-ink-soft);
+  white-space: nowrap;
+  transition: background 0.18s var(--pdf-ease), color 0.18s var(--pdf-ease);
+}
+.pdf-rail a:hover {
+  background: var(--pdf-paper-2);
+  color: var(--pdf-ink);
+}
+.pdf-rail a.is-on {
+  background: var(--pdf-ink);
+  color: #fdfbf6;
+  box-shadow: var(--pdf-shadow-1);
+}
+
+/* hamburger button */
+
+.pdf-burger {
+  display: none;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 15px 8px 12px;
+}
+.pdf-burger-bars {
+  display: grid;
+  gap: 4px;
+  width: 18px;
+}
+.pdf-burger-bars i {
+  display: block;
+  height: 2px;
+  width: 18px;
+  border-radius: 2px;
+  background: var(--pdf-ink);
+  transition: transform 0.28s var(--pdf-ease), opacity 0.18s var(--pdf-ease);
+  transform-origin: center;
+}
+.pdf-burger.is-open .pdf-burger-bars i:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.pdf-burger.is-open .pdf-burger-bars i:nth-child(2) { opacity: 0; transform: scaleX(0.4); }
+.pdf-burger.is-open .pdf-burger-bars i:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+.pdf-burger.is-open {
+  background: var(--pdf-ink);
+  border-color: var(--pdf-ink);
+  color: #fdfbf6;
+  position: relative;
+  z-index: 52;
+}
+.pdf-burger.is-open .pdf-burger-bars i { background: #fdfbf6; }
+.pdf-burger-label { font-size: 14px; font-weight: 500; }
+
+/* mobile drawer */
+.pdf-drawer-dim {
+  position: fixed;
+  inset: 0;
+  background: rgba(23, 21, 15, 0.45);
+  backdrop-filter: blur(3px);
+  border: 0;
+  z-index: 50;
+  animation: pdf-fade 0.2s var(--pdf-ease) both;
+}
+.pdf-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(340px, 90vw);
+  background: var(--pdf-paper);
+  z-index: 51;
+  display: grid;
+  align-content: start;
+  gap: 2px;
+  /* clears the masthead so the open (X) burger never sits on a link */
+  padding: 104px 22px calc(28px + env(safe-area-inset-bottom));
+  border-left: 1px solid var(--pdf-line);
+  box-shadow: -30px 0 60px -30px rgba(23, 21, 15, 0.5);
+  overflow-y: auto;
+  animation: pdf-slide 0.24s var(--pdf-ease) both;
+}
+.pdf-drawer-kicker {
+  margin: 4px 0 14px;
+  font-family: var(--pdf-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pdf-red);
+}
+.pdf-drawer a {
+  padding: 13px 14px;
+  border: 0;
+  border-radius: var(--pdf-r-sm);
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--pdf-ink);
+  transition: background 0.15s var(--pdf-ease);
+}
+.pdf-drawer a:hover { background: var(--pdf-paper-2); }
+.pdf-drawer a.is-on {
+  background: var(--pdf-ink);
+  color: #fdfbf6;
+  margin: 0;
+  padding: 13px 14px;
+  box-shadow: none;
+}
+.pdf-drawer .pdf-cta { margin-top: 16px; }
+
+@keyframes pdf-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pdf-slide {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ------------------------------------------------------------------- stage */
+
+.pdf-stage {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: stretch;
+  gap: clamp(24px, 4vw, 56px);
+  padding: clamp(40px, 6vw, 88px) var(--pdf-gutter) clamp(32px, 5vw, 64px);
+}
+.pdf-stage-copy {
+  padding: 0;
+  border-right: 0;
+  align-self: center;
+  animation: pdf-rise 0.6s var(--pdf-ease) both;
+}
+.pdf-kicker {
+  margin: 0 0 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--pdf-red-soft);
+  font-family: var(--pdf-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pdf-red);
+}
+.pdf-stage-copy h1 {
+  margin: 0;
+  font-family: var(--pdf-display);
+  font-size: clamp(40px, 5.6vw, 78px);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+  text-wrap: balance;
+}
+.pdf-dek {
+  margin: 22px 0 0;
+  max-width: 36rem;
+  font-size: 18.5px;
+  line-height: 1.65;
+  color: var(--pdf-ink-soft);
+  text-wrap: pretty;
+}
+.pdf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+.pdf-note {
+  margin: 22px 0 0;
+  font-family: var(--pdf-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.03em;
+  color: var(--pdf-mute);
+}
+.pdf-stage-media {
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--pdf-r-lg);
+  background: #1b1811;
+  box-shadow: var(--pdf-shadow-2);
+  min-height: 440px;
+  animation: pdf-rise 0.7s 0.08s var(--pdf-ease) both;
+}
+.pdf-stage-media img {
+  width: 100%;
+  height: 100%;
+  min-height: 440px;
+  object-fit: cover;
+  object-position: center 28%;
+  display: block;
+  transition: transform 0.9s var(--pdf-ease);
+}
+.pdf-stage-media:hover img { transform: scale(1.03); }
+.pdf-stage-media figcaption {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  background: rgba(23, 21, 15, 0.66);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #f7f2e8;
+  font-family: var(--pdf-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+@keyframes pdf-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ------------------------------------------------------------------ ledger */
+
+.pdf-ledger {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  margin: 0 var(--pdf-gutter) clamp(40px, 6vw, 72px);
+  padding: 0;
+  border: 1px solid var(--pdf-line);
+  border-radius: var(--pdf-r);
+  background: var(--pdf-line);
+  overflow: hidden;
+}
+.pdf-ledger > div {
+  padding: 24px 22px;
+  border: 0;
+  background: var(--pdf-panel);
+}
+.pdf-ledger b {
+  display: block;
+  font-family: var(--pdf-display);
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--pdf-ink);
+}
+.pdf-ledger span {
+  display: block;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--pdf-mute);
+}
+
+/* ---------------------------------------------------------- section frames */
+
+.pdf-folio,
+.pdf-index,
+.pdf-triad {
+  padding: clamp(40px, 5vw, 72px) var(--pdf-gutter);
+}
+.pdf-folio header,
+.pdf-index header,
+.pdf-triad header {
+  margin-bottom: 32px;
+  max-width: 44rem;
+}
+.pdf-folio h2,
+.pdf-index h2,
+.pdf-triad h2,
+.pdf-band h2 {
+  margin: 0;
+  font-family: var(--pdf-display);
+  font-size: clamp(30px, 3.6vw, 46px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.pdf-index header p {
+  margin: 14px 0 0;
+  font-size: 17px;
+  color: var(--pdf-ink-soft);
+}
+
+/* folio */
+
+.pdf-folio-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 0.85fr;
+  gap: 24px;
+  border: 0;
+}
+.pdf-lead {
+  display: grid;
+  grid-template-rows: minmax(300px, 46vh) auto;
+  border: 1px solid var(--pdf-line);
+  border-radius: var(--pdf-r-lg);
+  background: var(--pdf-panel);
+  overflow: hidden;
+  box-shadow: var(--pdf-shadow-1);
+  transition: transform 0.3s var(--pdf-ease), box-shadow 0.3s var(--pdf-ease);
+}
+.pdf-lead:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--pdf-shadow-2);
+}
+.pdf-lead-media { overflow: hidden; background: var(--pdf-paper-2); }
+.pdf-lead img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s var(--pdf-ease);
+}
+.pdf-lead:hover .pdf-lead-media img { transform: scale(1.04); }
+.pdf-lead > div:last-child { padding: 26px 28px 30px; }
+
+.pdf-lead span,
+.pdf-lead time,
+.pdf-stack time {
+  font-family: var(--pdf-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--pdf-red);
+  margin-right: 12px;
+}
+.pdf-stack time { color: var(--pdf-mute); }
+
+.pdf-lead h3,
+.pdf-stack h3,
+.pdf-triad h3 {
+  margin: 12px 0 10px;
+  font-family: var(--pdf-display);
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.pdf-stack h3 { font-size: 19px; margin: 8px 0; }
+.pdf-lead p {
+  margin: 0 0 20px;
+  color: var(--pdf-ink-soft);
+  line-height: 1.65;
+}
+.pdf-lead a,
+.pdf-stack a,
+.pdf-triad a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid var(--pdf-line-strong);
+  padding-bottom: 2px;
+  font-weight: 600;
+  font-size: 15px;
+  transition: border-color 0.2s var(--pdf-ease), color 0.2s var(--pdf-ease);
+}
+.pdf-lead a:hover,
+.pdf-stack a:hover,
+.pdf-triad a:hover {
+  color: var(--pdf-red);
+  border-bottom-color: var(--pdf-red);
+}
+
+.pdf-stack { display: grid; gap: 16px; align-content: start; }
+.pdf-stack article {
+  display: grid;
+  grid-template-columns: 116px 1fr;
+  gap: 16px;
+  padding: 14px;
+  border: 1px solid var(--pdf-line);
+  border-radius: var(--pdf-r);
+  background: var(--pdf-panel);
+  transition: transform 0.25s var(--pdf-ease), box-shadow 0.25s var(--pdf-ease);
+}
+.pdf-stack article:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--pdf-shadow-1);
+}
+.pdf-stack article:last-child { border-bottom: 1px solid var(--pdf-line); }
+.pdf-stack img {
+  width: 116px;
+  height: 96px;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--pdf-r-sm);
+}
+
+/* banner */
+
+.pdf-banner {
+  margin: 0 var(--pdf-gutter);
+  padding: clamp(32px, 5vw, 56px);
+  border-radius: var(--pdf-r-lg);
+  background:
+    radial-gradient(600px 300px at 85% 10%, rgba(232, 178, 60, 0.2), transparent 65%),
+    linear-gradient(135deg, #1d1a12, #17150f 60%);
+  color: #f8f3e8;
+  box-shadow: var(--pdf-shadow-2);
+}
+.pdf-banner p {
+  margin: 0;
+  max-width: 30ch;
+  font-family: var(--pdf-display);
+  font-size: clamp(26px, 3.2vw, 44px);
+  font-weight: 600;
+  line-height: 1.18;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+/* index list */
+
+.pdf-index ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--pdf-line);
+  border-radius: var(--pdf-r);
+  background: var(--pdf-panel);
+  overflow: hidden;
+}
+.pdf-index li + li { border-top: 1px solid var(--pdf-line); }
+.pdf-index a {
+  display: grid;
+  grid-template-columns: 68px 240px 1fr;
+  gap: 20px;
+  align-items: baseline;
+  padding: 20px 24px;
+  transition: background 0.2s var(--pdf-ease);
+}
+.pdf-index a:hover { background: var(--pdf-yellow-soft); }
+.pdf-index em {
+  font-family: var(--pdf-mono);
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--pdf-red);
+}
+.pdf-index strong { font-size: 17.5px; font-weight: 600; }
+.pdf-index span { color: var(--pdf-mute); font-size: 15px; line-height: 1.55; }
+
+/* triad */
+
+.pdf-triad > div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  border: 0;
+}
+.pdf-triad article {
+  padding: 28px 26px 30px;
+  border: 1px solid var(--pdf-line);
+  border-radius: var(--pdf-r);
+  background: var(--pdf-panel);
+  box-shadow: var(--pdf-shadow-1);
+  transition: transform 0.25s var(--pdf-ease), box-shadow 0.25s var(--pdf-ease);
+}
+.pdf-triad article:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--pdf-shadow-2);
+}
+.pdf-triad article:first-child { border-left: 1px solid var(--pdf-line); }
+.pdf-triad h3 { margin-top: 0; }
+.pdf-triad p {
+  color: var(--pdf-ink-soft);
+  min-height: 4.5em;
+  line-height: 1.65;
+}
+
+/* band */
+
+.pdf-band {
+  margin: 0 var(--pdf-gutter) clamp(40px, 5vw, 64px);
+  padding: clamp(26px, 3.6vw, 40px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  border: 1px solid rgba(232, 178, 60, 0.55);
+  border-radius: var(--pdf-r-lg);
+  background: linear-gradient(120deg, #fdf3dc, #f8e6bb);
+  box-shadow: var(--pdf-shadow-1);
+}
+.pdf-band .pdf-kicker { background: rgba(191, 21, 48, 0.1); }
+.pdf-band-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+/* --------------------------------------------------------------- subscribe */
+
+.pdf-shell .mail-subscribe,
+.pdf-inner .mail-subscribe,
+.pdf-subscribe {
+  margin: 0 var(--pdf-gutter) clamp(40px, 5vw, 64px);
+  padding: clamp(26px, 3.6vw, 40px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 3vw, 40px);
+  border: 1px solid var(--pdf-line);
+  border-radius: var(--pdf-r-lg);
+  background: var(--pdf-panel);
+  box-shadow: var(--pdf-shadow-1);
+  color: var(--pdf-ink);
+}
+.pdf-subscribe .mail-subscribe-eyebrow {
+  color: var(--pdf-red);
+  font-family: var(--pdf-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.pdf-subscribe h2,
+.pdf-shell .mail-subscribe h2,
+.pdf-inner .mail-subscribe h2 {
+  margin: 10px 0 0;
+  font-family: var(--pdf-display);
+  font-size: clamp(26px, 2.8vw, 34px);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: var(--pdf-ink);
+}
+.pdf-subscribe .mail-subscribe-copy p,
+.pdf-subscribe .mail-subscribe-form label {
+  color: var(--pdf-ink-soft);
+}
+.pdf-subscribe .mail-subscribe-form {
+  border: 1px solid var(--pdf-line);
+  border-radius: var(--pdf-r);
+  background: var(--pdf-paper);
+  padding: 22px;
+}
+.pdf-subscribe .mail-subscribe-form input[type="text"],
+.pdf-subscribe .mail-subscribe-form input[type="email"] {
+  border: 1px solid var(--pdf-line-strong);
+  border-radius: var(--pdf-r-sm);
+  background: var(--pdf-panel);
+  color: var(--pdf-ink);
+  padding: 11px 13px;
+  font: inherit;
+  transition: border-color 0.18s var(--pdf-ease), box-shadow 0.18s var(--pdf-ease);
+}
+.pdf-subscribe .mail-subscribe-form input[type="text"]:focus,
+.pdf-subscribe .mail-subscribe-form input[type="email"]:focus {
+  outline: none;
+  border-color: var(--pdf-red);
+  box-shadow: 0 0 0 3px var(--pdf-red-soft);
+}
+.pdf-subscribe .mail-subscribe-consent { color: var(--pdf-ink-soft) !important; }
+.pdf-subscribe .mail-subscribe-notice { color: var(--pdf-ink); }
+.pdf-subscribe .mail-subscribe-notice.is-ok { color: var(--pdf-green); }
+.pdf-subscribe .mail-subscribe-notice.is-error { color: var(--pdf-red); }
+.pdf-shell .mail-subscribe button,
+.pdf-inner .mail-subscribe button,
+.pdf-subscribe button {
+  background: var(--pdf-ink);
+  color: #fdfbf6;
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 22px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.18s var(--pdf-ease), box-shadow 0.18s var(--pdf-ease),
+    background 0.18s var(--pdf-ease);
+}
+.pdf-shell .mail-subscribe button:hover,
+.pdf-inner .mail-subscribe button:hover,
+.pdf-subscribe button:hover {
+  background: #2a2619;
+  transform: translateY(-1px);
+  box-shadow: var(--pdf-shadow-1);
+}
+
+/* --------------------------------------------------------------- colophon */
+
+.pdf-colophon {
+  padding: clamp(32px, 4vw, 52px) var(--pdf-gutter) 48px;
+  border-top: 1px solid var(--pdf-line);
+  background: var(--pdf-paper-2);
+  display: grid;
+  gap: 22px;
+}
+.pdf-colophon-brand { display: flex; gap: 14px; align-items: center; }
+.pdf-colophon-brand strong {
+  display: block;
+  font-family: var(--pdf-display);
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.pdf-colophon-brand span { color: var(--pdf-mute); font-size: 13.5px; }
+.pdf-colophon nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 26px;
+  font-size: 14px;
+}
+.pdf-colophon nav a {
+  border-bottom: 1px solid transparent;
+  color: var(--pdf-ink-soft);
+  transition: color 0.18s var(--pdf-ease), border-color 0.18s var(--pdf-ease);
+}
+.pdf-colophon nav a:hover {
+  color: var(--pdf-red);
+  border-bottom-color: var(--pdf-red);
+}
+.pdf-colophon p {
+  margin: 0;
+  font-family: var(--pdf-mono);
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--pdf-mute);
+}
+
+/* ==========================================================================
+   Inner pages — About / Our work / Giving / Stories / Events / Gallery
+   These reuse shared component classes from globals.css; the rules below
+   restate them in the new system.
+   ========================================================================== */
+
+.pdf-inner .section-page-hero,
+.pdf-inner .v2-events-hero,
+.pdf-inner .v2-gallery-hero {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(24px, 4vw, 48px);
+  padding: clamp(40px, 5.5vw, 76px) var(--pdf-gutter);
+  background: transparent !important;
+  color: var(--pdf-ink) !important;
+  border-bottom: 1px solid var(--pdf-line);
+}
+/* `1fr` resolves to minmax(auto, 1fr), so a wide min-content child can push a
+   track past the viewport. Pin every grid child to min-width: 0 instead. */
+.pdf-inner .section-page-hero > *,
+.pdf-inner .v2-events-hero > *,
+.pdf-inner .v2-gallery-hero > * {
+  min-width: 0;
+}
+.pdf-inner .section-page-hero h1,
+.pdf-inner .v2-events-hero h1,
+.pdf-inner .v2-gallery-hero h1,
+.pdf-inner .section-lead {
+  overflow-wrap: break-word;
+}
+.pdf-inner .section-page-hero h1,
+.pdf-inner .v2-events-hero h1,
+.pdf-inner .v2-gallery-hero h1,
+.pdf-inner .section-statement p {
+  font-family: var(--pdf-display);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  color: var(--pdf-ink) !important;
+  text-wrap: balance;
+}
+.pdf-inner .v2-gallery-hero .v2-section-eyebrow,
+.pdf-inner .v2-events-hero .v2-section-eyebrow {
+  color: var(--pdf-red) !important;
+  font-family: var(--pdf-mono);
+  letter-spacing: 0.14em;
+}
+.pdf-inner .v2-gallery-subtitle,
+.pdf-inner .v2-events-hero p {
+  color: var(--pdf-ink-soft) !important;
+  line-height: 1.65;
+}
+
+.pdf-inner .v2-gallery-filters {
+  background: transparent;
+  border-bottom: 1px solid var(--pdf-line);
+  padding-inline: var(--pdf-gutter);
+}
+.pdf-inner .v2-gallery-filter-btn {
+  background: var(--pdf-panel);
+  border: 1px solid var(--pdf-line-strong);
+  color: var(--pdf-ink-soft);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-weight: 500;
+  transition: background 0.18s var(--pdf-ease), color 0.18s var(--pdf-ease),
+    box-shadow 0.18s var(--pdf-ease);
+}
+.pdf-inner .v2-gallery-filter-btn:hover {
+  background: var(--pdf-paper-2);
+  color: var(--pdf-ink);
+}
+.pdf-inner .v2-gallery-filter-btn.active {
+  background: var(--pdf-ink);
+  color: #fdfbf6;
+  border-color: var(--pdf-ink);
+  box-shadow: var(--pdf-shadow-1);
+}
+.pdf-inner .v2-gallery-count,
+.pdf-inner .v2-gallery-empty,
+.pdf-inner .v2-gallery-caption h3,
+.pdf-inner .v2-gallery-caption time {
+  color: var(--pdf-ink) !important;
+}
+.pdf-inner .v2-gallery-cat {
+  background: var(--pdf-yellow-soft);
+  color: var(--pdf-ink) !important;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-family: var(--pdf-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+.pdf-inner .v2-gallery-cta {
+  margin: 0 var(--pdf-gutter) 56px;
+  border-radius: var(--pdf-r-lg);
+  background: linear-gradient(120deg, #fdf3dc, #f8e6bb) !important;
+  color: var(--pdf-ink) !important;
+  border: 1px solid rgba(232, 178, 60, 0.55);
+  border-top: 1px solid rgba(232, 178, 60, 0.55);
+  box-shadow: var(--pdf-shadow-1);
+}
+.pdf-inner .v2-gallery-cta h2,
+.pdf-inner .v2-gallery-cta p {
+  color: var(--pdf-ink) !important;
+  font-family: var(--pdf-display);
+}
+.pdf-inner .v2-gallery-cta p {
+  font-family: var(--pdf-sans);
+  color: var(--pdf-ink-soft) !important;
+}
+
+.pdf-inner .section-statement {
+  margin: 0 var(--pdf-gutter) clamp(28px, 4vw, 44px);
+  padding: clamp(26px, 3.6vw, 44px);
+  border: 1px solid rgba(232, 178, 60, 0.55);
+  border-radius: var(--pdf-r-lg);
+  background: linear-gradient(120deg, #fdf3dc, #f8e6bb);
+  color: var(--pdf-ink);
+  box-shadow: var(--pdf-shadow-1);
+}
+.pdf-inner .section-statement p {
+  color: var(--pdf-ink);
+  margin: 0;
+  font-size: clamp(24px, 3.2vw, 40px) !important;
+  max-width: 32ch;
+}
+.pdf-inner .section-emblem {
+  border: 1px solid var(--pdf-line);
+  border-radius: var(--pdf-r);
+  background: var(--pdf-yellow-soft);
+}
+
+.pdf-inner .bcc-history,
+.pdf-inner .giving-totals,
+.pdf-inner .facebook-community-panel,
+.pdf-inner .v2-events-list-section,
+.pdf-inner .v2-gallery-grid-section {
+  background: transparent;
+}
+.pdf-inner .v2-events-list-section,
+.pdf-inner .v2-gallery-grid-section {
+  padding-inline: var(--pdf-gutter);
+}
+.pdf-inner .v2-event-card,
+.pdf-inner .committee-card,
+.pdf-inner .v2-gallery-item {
+  border: 1px solid var(--pdf-line);
+  border-radius: var(--pdf-r);
+  background: var(--pdf-panel);
+  box-shadow: var(--pdf-shadow-1);
+  overflow: hidden;
+  transition: transform 0.25s var(--pdf-ease), box-shadow 0.25s var(--pdf-ease);
+}
+.pdf-inner .v2-event-card:hover,
+.pdf-inner .v2-gallery-item:hover,
+.pdf-inner .committee-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--pdf-shadow-2);
+}
+.pdf-inner .section-footer {
+  border-top: 1px solid var(--pdf-line);
+  background: var(--pdf-paper-2);
+  color: var(--pdf-ink);
+  padding-inline: var(--pdf-gutter);
+}
+
+.pdf-inner .section-lead,
+.pdf-inner .section-about-copy .section-lead,
+.pdf-inner .section-work-copy .section-lead {
+  color: var(--pdf-ink-soft) !important;
+  font-size: 18px;
+  line-height: 1.7;
+}
+.pdf-inner .section-about-copy {
+  background: var(--pdf-panel);
+  border: 1px solid var(--pdf-line);
+  border-left: 4px solid var(--pdf-red);
+  border-radius: var(--pdf-r);
+  box-shadow: var(--pdf-shadow-1);
+  color: var(--pdf-ink);
+  padding: clamp(24px, 3vw, 36px);
+}
+.pdf-inner .section-about-copy h1 {
+  margin: 16px 0 0;
+  font-family: var(--pdf-display);
+  font-size: clamp(32px, 4.2vw, 54px);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  text-transform: none;
+  color: var(--pdf-ink);
+}
+.pdf-inner .section-about-kicker,
+.pdf-inner .eyebrow {
+  color: var(--pdf-red) !important;
+  font-family: var(--pdf-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.pdf-inner .section-about-kicker span {
+  border-color: var(--pdf-line-strong);
+  border-radius: 999px;
+  color: var(--pdf-ink);
+}
+
+/* giving */
+
+.pdf-inner .giving-totals {
+  margin: 0 var(--pdf-gutter) clamp(28px, 4vw, 44px);
+  padding: clamp(26px, 3.4vw, 40px);
+  background: var(--pdf-panel) !important;
+  color: var(--pdf-ink) !important;
+  border: 1px solid var(--pdf-line);
+  border-top: 3px solid var(--pdf-red);
+  border-radius: var(--pdf-r-lg);
+  box-shadow: var(--pdf-shadow-1);
+}
+.pdf-inner .giving-totals-intro .eyebrow,
+.pdf-inner .giving-totals-grid span,
+.pdf-inner .giving-howto h3 {
+  color: var(--pdf-red) !important;
+}
+.pdf-inner .giving-totals-intro h2,
+.pdf-inner .giving-totals-grid strong {
+  color: var(--pdf-ink) !important;
+  font-family: var(--pdf-display);
+  letter-spacing: -0.02em;
+}
+.pdf-inner .giving-totals-intro p,
+.pdf-inner .giving-howto p,
+.pdf-inner .giving-totals-intro small {
+  color: var(--pdf-mute) !important;
+}
+.pdf-inner .giving-totals-grid article {
+  background: var(--pdf-paper);
+  border: 1px solid var(--pdf-line);
+  border-left: 3px solid var(--pdf-red);
+  border-radius: var(--pdf-r);
+  color: var(--pdf-ink);
+  padding: 20px;
+}
+.pdf-inner .giving-howto { border-top: 1px solid var(--pdf-line); }
+.pdf-inner .giving-howto .button,
+.pdf-inner .button-dark,
+.pdf-inner .button-light {
+  background: var(--pdf-ink);
+  color: #fdfbf6 !important;
+  border: 1px solid var(--pdf-ink);
+  border-radius: 999px;
+  padding: 11px 22px;
+  font-weight: 600;
+  transition: transform 0.18s var(--pdf-ease), box-shadow 0.18s var(--pdf-ease);
+}
+.pdf-inner .giving-howto .button:hover,
+.pdf-inner .button-dark:hover,
+.pdf-inner .button-light:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--pdf-shadow-1);
+}
+
+/* about / committee panels */
+
+.pdf-inner .bcc-history,
+.pdf-inner .bcc-ministries,
+.pdf-inner .bcc-committee,
+.pdf-inner .bcc-contact {
+  background: var(--pdf-panel) !important;
+  color: var(--pdf-ink) !important;
+  margin: 0 var(--pdf-gutter) clamp(22px, 3vw, 32px);
+  padding: clamp(26px, 3.4vw, 40px);
+  border: 1px solid var(--pdf-line);
+  border-radius: var(--pdf-r-lg);
+  box-shadow: var(--pdf-shadow-1);
+}
+.pdf-inner .bcc-history-copy p,
+.pdf-inner .bcc-facts strong,
+.pdf-inner .bcc-ministry-grid h3,
+.pdf-inner .committee-card h3,
+.pdf-inner .bcc-contact h2 {
+  color: var(--pdf-ink) !important;
+}
+.pdf-inner .bcc-history h2,
+.pdf-inner .bcc-ministries h2,
+.pdf-inner .bcc-committee h2,
+.pdf-inner .bcc-contact h2 {
+  font-family: var(--pdf-display);
+  letter-spacing: -0.025em;
+}
+.pdf-inner .bcc-facts span,
+.pdf-inner .committee-card span,
+.pdf-inner .committee-card small,
+.pdf-inner .bcc-source-note {
+  color: var(--pdf-mute) !important;
+}
+.pdf-inner .committee-card {
+  background: var(--pdf-paper);
+  color: var(--pdf-ink);
+  padding: 20px;
+}
+.pdf-inner .section-feature-grid article {
+  background: var(--pdf-panel);
+  color: var(--pdf-ink);
+  border: 1px solid var(--pdf-line);
+  border-radius: var(--pdf-r);
+  box-shadow: var(--pdf-shadow-1);
+  padding: clamp(22px, 2.6vw, 30px);
+  transition: transform 0.25s var(--pdf-ease), box-shadow 0.25s var(--pdf-ease);
+}
+.pdf-inner .section-feature-grid article:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--pdf-shadow-2);
+}
+.pdf-inner .section-feature-grid article:nth-child(2),
+.pdf-inner .section-feature-grid article:nth-child(3) {
+  background: var(--pdf-panel);
+  color: var(--pdf-ink);
+}
+.pdf-inner .section-feature-grid h2 {
+  font-family: var(--pdf-display);
+  letter-spacing: -0.025em;
+}
+
+/* ------------------------------------------------------------ live stream */
+
+.pdf-live-stage {
+  margin: 0 var(--pdf-gutter) clamp(28px, 4vw, 40px);
+  padding: clamp(24px, 3vw, 32px);
+  border: 1px solid var(--pdf-line);
+  border-radius: var(--pdf-r-lg);
+  background: var(--pdf-panel);
+  box-shadow: var(--pdf-shadow-1);
+}
+.pdf-live-stage h2 {
+  margin: 10px 0 12px;
+  font-family: var(--pdf-display);
+  font-size: clamp(23px, 2.6vw, 33px);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+.pdf-live-player { display: grid; gap: 12px; margin-top: 16px; }
+.pdf-live-player iframe {
+  width: 100%;
+  min-height: 380px;
+  border: 0;
+  border-radius: var(--pdf-r);
+  background: #17150f;
+  box-shadow: var(--pdf-shadow-1);
+}
+.pdf-live-fallback {
+  min-height: 190px;
+  display: grid;
+  place-items: center;
+  border: 1px dashed rgba(232, 178, 60, 0.7);
+  border-radius: var(--pdf-r);
+  background: var(--pdf-yellow-soft);
+  padding: 24px;
+  text-align: center;
+}
+.pdf-live-watch {
+  width: fit-content;
+  padding: 9px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--pdf-red);
+  color: #fff !important;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 10px 22px -14px rgba(191, 21, 48, 0.9);
+}
+
+/* ==================================================================== stories
+   Story pages keep a tighter measure so long-form copy stays readable.
+   ==================================================================== */
+
+.pdf-inner.section-stories .story-feed-boundary h2,
+.pdf-inner.section-stories .facebook-community-panel h2,
+.pdf-inner.section-stories .section-published-heading h2,
+.pdf-inner.section-stories .section-feature-grid h2 {
+  font-family: var(--pdf-display);
+  font-size: clamp(23px, 2.5vw, 31px) !important;
+  font-weight: 600;
+  line-height: 1.25 !important;
+  letter-spacing: -0.02em !important;
+  text-transform: none !important;
+  max-width: 36rem;
+}
+.pdf-inner.section-stories .section-statement p {
+  font-size: clamp(21px, 2.3vw, 29px) !important;
+  line-height: 1.35 !important;
+  letter-spacing: -0.02em !important;
+}
+.pdf-inner.section-stories .story-feed-boundary > div:last-child p,
+.pdf-inner.section-stories .facebook-community-action p,
+.pdf-inner.section-stories .section-feature-grid p,
+.pdf-inner.section-stories .section-published-grid p {
+  font-family: var(--pdf-sans);
+  font-size: 16px !important;
+  line-height: 1.7 !important;
+  color: var(--pdf-ink-soft);
+}
+.pdf-inner.section-stories .section-published-grid h3 {
+  font-family: var(--pdf-display);
+  font-size: 20px !important;
+  font-weight: 600;
+  line-height: 1.3 !important;
+  letter-spacing: -0.02em !important;
+}
+
+/* ==========================================================================
+   Myanmar-script typography — Burmese (`my`) and Karen (`kar`)
+   Both languages render in Myanmar script, whose stacked diacritics need a
+   real Myanmar face, generous leading, and no uppercase / letter-spacing
+   tricks. Rather than listing selectors page by page (which always misses a
+   paragraph somewhere), the shell swaps its three font tokens and then
+   normalises every descendant — so headings, body copy, buttons, captions,
+   table cells and form labels on every page are covered.
+   ========================================================================== */
+
+html[data-lang="my"] .pdf-shell,
+html[data-lang="my"] .pdf-inner,
+html[data-lang="my"] .pdf-masthead,
+html[data-lang="kar"] .pdf-shell,
+html[data-lang="kar"] .pdf-inner,
+html[data-lang="kar"] .pdf-masthead,
+.pdf-shell.is-my,
+.pdf-inner.is-my,
+.pdf-masthead.is-my {
+  --pdf-display: "Noto Sans Myanmar", "Padauk", "Myanmar Text", sans-serif;
+  --pdf-sans: "Noto Sans Myanmar", "Padauk", "Myanmar Text", sans-serif;
+  --pdf-mono: "Noto Sans Myanmar", "Padauk", "Myanmar Text", sans-serif;
+  font-family: var(--pdf-sans);
+  line-height: 1.85;
+}
+
+/* Neutralise Latin-only treatments inherited from globals.css. */
+html[data-lang="my"] .pdf-shell *,
+html[data-lang="my"] .pdf-inner *,
+html[data-lang="my"] .pdf-masthead *,
+html[data-lang="kar"] .pdf-shell *,
+html[data-lang="kar"] .pdf-inner *,
+html[data-lang="kar"] .pdf-masthead *,
+.pdf-shell.is-my *,
+.pdf-inner.is-my *,
+.pdf-masthead.is-my * {
+  font-family: "Noto Sans Myanmar", "Padauk", "Myanmar Text", sans-serif !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  font-feature-settings: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+  line-break: normal;
+  hyphens: none;
+}
+
+/* Body copy — every paragraph-like element, not a hand-picked list. */
+html[data-lang="my"] .pdf-shell :is(p, li, dd, dt, td, th, label, figcaption, blockquote, .pdf-dek, .section-lead, .pdf-note),
+html[data-lang="my"] .pdf-inner :is(p, li, dd, dt, td, th, label, figcaption, blockquote, .pdf-dek, .section-lead, .pdf-note),
+html[data-lang="kar"] .pdf-shell :is(p, li, dd, dt, td, th, label, figcaption, blockquote, .pdf-dek, .section-lead, .pdf-note),
+html[data-lang="kar"] .pdf-inner :is(p, li, dd, dt, td, th, label, figcaption, blockquote, .pdf-dek, .section-lead, .pdf-note),
+.pdf-shell.is-my :is(p, li, dd, dt, td, th, label, figcaption, blockquote, .pdf-dek, .section-lead, .pdf-note),
+.pdf-inner.is-my :is(p, li, dd, dt, td, th, label, figcaption, blockquote, .pdf-dek, .section-lead, .pdf-note) {
+  line-height: 1.9 !important;
+  text-wrap: pretty;
+}
+
+html[data-lang="my"] .pdf-shell :is(.pdf-dek, .section-lead),
+html[data-lang="my"] .pdf-inner :is(.pdf-dek, .section-lead),
+html[data-lang="kar"] .pdf-shell :is(.pdf-dek, .section-lead),
+html[data-lang="kar"] .pdf-inner :is(.pdf-dek, .section-lead),
+.pdf-shell.is-my :is(.pdf-dek, .section-lead),
+.pdf-inner.is-my :is(.pdf-dek, .section-lead) {
+  font-size: clamp(16.5px, 1.7vw, 20px) !important;
+}
+
+/* Headings — Myanmar needs a smaller display size and much looser leading
+   than the Latin scale, or the stacked marks collide with the line above. */
+html[data-lang="my"] .pdf-shell h1,
+html[data-lang="my"] .pdf-inner h1,
+html[data-lang="kar"] .pdf-shell h1,
+html[data-lang="kar"] .pdf-inner h1,
+.pdf-shell.is-my h1,
+.pdf-inner.is-my h1 {
+  font-size: clamp(27px, 3.6vw, 44px) !important;
+  line-height: 1.5 !important;
+  font-weight: 600;
+}
+html[data-lang="my"] .pdf-shell h2,
+html[data-lang="my"] .pdf-inner h2,
+html[data-lang="kar"] .pdf-shell h2,
+html[data-lang="kar"] .pdf-inner h2,
+.pdf-shell.is-my h2,
+.pdf-inner.is-my h2 {
+  font-size: clamp(21px, 2.7vw, 32px) !important;
+  line-height: 1.55 !important;
+  font-weight: 600;
+}
+html[data-lang="my"] .pdf-shell h3,
+html[data-lang="my"] .pdf-inner h3,
+html[data-lang="kar"] .pdf-shell h3,
+html[data-lang="kar"] .pdf-inner h3,
+.pdf-shell.is-my h3,
+.pdf-inner.is-my h3 {
+  font-size: clamp(17px, 1.9vw, 21px) !important;
+  line-height: 1.6 !important;
+  font-weight: 600;
+}
+
+/* The pull-quote statement is display-sized in Latin; scale it back. */
+html[data-lang="my"] .pdf-inner .section-statement p,
+html[data-lang="my"] .pdf-shell .pdf-banner p,
+html[data-lang="kar"] .pdf-inner .section-statement p,
+html[data-lang="kar"] .pdf-shell .pdf-banner p,
+.pdf-inner.is-my .section-statement p,
+.pdf-shell.is-my .pdf-banner p {
+  font-size: clamp(20px, 2.4vw, 30px) !important;
+  line-height: 1.6 !important;
+  max-width: 34ch;
+}
+
+/* Eyebrows / kickers lose their uppercase mono treatment, so give them a
+   readable size instead of the 11px Latin caps size. */
+html[data-lang="my"] .pdf-shell :is(.pdf-kicker, .eyebrow, .section-about-kicker, .v2-section-eyebrow, .pdf-drawer-kicker, .mail-subscribe-eyebrow),
+html[data-lang="my"] .pdf-inner :is(.pdf-kicker, .eyebrow, .section-about-kicker, .v2-section-eyebrow, .pdf-drawer-kicker, .mail-subscribe-eyebrow),
+html[data-lang="kar"] .pdf-shell :is(.pdf-kicker, .eyebrow, .section-about-kicker, .v2-section-eyebrow, .pdf-drawer-kicker, .mail-subscribe-eyebrow),
+html[data-lang="kar"] .pdf-inner :is(.pdf-kicker, .eyebrow, .section-about-kicker, .v2-section-eyebrow, .pdf-drawer-kicker, .mail-subscribe-eyebrow),
+.pdf-shell.is-my :is(.pdf-kicker, .eyebrow, .section-about-kicker, .v2-section-eyebrow, .pdf-drawer-kicker, .mail-subscribe-eyebrow),
+.pdf-inner.is-my :is(.pdf-kicker, .eyebrow, .section-about-kicker, .v2-section-eyebrow, .pdf-drawer-kicker, .mail-subscribe-eyebrow) {
+  font-size: 13.5px !important;
+  line-height: 1.7 !important;
+  padding-block: 7px;
+}
+
+/* Chrome that clips or truncates in Latin must wrap instead — Myanmar words
+   are long and an ellipsis eats whole syllables. */
+html[data-lang="my"] .pdf-ticker,
+html[data-lang="kar"] .pdf-ticker,
+.pdf-shell.is-my .pdf-ticker {
+  align-items: flex-start;
+  font-size: 12.5px;
+  line-height: 1.7;
+  padding-block: 11px;
+}
+html[data-lang="my"] .pdf-ticker span,
+html[data-lang="kar"] .pdf-ticker span,
+.pdf-shell.is-my .pdf-ticker span {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+html[data-lang="my"] .pdf-rail a,
+html[data-lang="kar"] .pdf-rail a,
+.pdf-masthead.is-my .pdf-rail a {
+  white-space: normal;
+  font-size: 14.5px;
+  line-height: 1.55;
+  padding-block: 8px;
+}
+html[data-lang="my"] :is(.pdf-cta, .pdf-ghost, .pdf-lang > button, .pdf-burger, .pdf-live-watch, .button, .button-dark, .button-light),
+html[data-lang="kar"] :is(.pdf-cta, .pdf-ghost, .pdf-lang > button, .pdf-burger, .pdf-live-watch, .button, .button-dark, .button-light),
+.pdf-shell.is-my :is(.pdf-cta, .pdf-ghost, .pdf-live-watch),
+.pdf-masthead.is-my :is(.pdf-cta, .pdf-ghost, .pdf-lang > button, .pdf-burger) {
+  line-height: 1.65;
+  padding-block: 10px;
+  height: auto;
+  white-space: normal;
+}
+html[data-lang="my"] .pdf-wordmark small,
+html[data-lang="kar"] .pdf-wordmark small,
+.pdf-masthead.is-my .pdf-wordmark small {
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 2px;
+}
+html[data-lang="my"] .pdf-note,
+html[data-lang="kar"] .pdf-note,
+.pdf-shell.is-my .pdf-note {
+  font-size: 13px;
+  line-height: 1.8;
+}
+html[data-lang="my"] .pdf-ledger span,
+html[data-lang="kar"] .pdf-ledger span,
+.pdf-shell.is-my .pdf-ledger span {
+  font-size: 14px;
+  line-height: 1.75;
+}
+html[data-lang="my"] .pdf-stage-media figcaption,
+html[data-lang="kar"] .pdf-stage-media figcaption,
+.pdf-shell.is-my .pdf-stage-media figcaption {
+  font-size: 12px;
+  line-height: 1.6;
+  border-radius: var(--pdf-r);
+  white-space: normal;
+}
+
+/* Fixed-height boxes become min-height so taller Myanmar lines never clip. */
+html[data-lang="my"] .pdf-triad p,
+html[data-lang="kar"] .pdf-triad p,
+.pdf-shell.is-my .pdf-triad p {
+  min-height: 0;
+}
+html[data-lang="my"] .pdf-index a,
+html[data-lang="kar"] .pdf-index a,
+.pdf-shell.is-my .pdf-index a {
+  align-items: start;
+  padding-block: 22px;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .pdf-folio-grid { grid-template-columns: 1fr; }
+  .pdf-triad > div { grid-template-columns: 1fr 1fr; }
+  .pdf-ledger { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 900px) {
+  .pdf-rail { display: none; }
+  .pdf-burger { display: inline-flex; }
+  .pdf-stage,
+  .pdf-folio-grid,
+  .pdf-triad > div,
+  .pdf-index a,
+  .pdf-inner .section-page-hero,
+  .pdf-inner .v2-events-hero,
+  .pdf-inner .v2-gallery-hero,
+  .pdf-shell .mail-subscribe,
+  .pdf-inner .mail-subscribe {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pdf-stage-copy { border-right: 0; border-bottom: 0; }
+  .pdf-lead { border-right: 1px solid var(--pdf-line); }
+  .pdf-stage-media,
+  .pdf-stage-media img { min-height: 320px; }
+  .pdf-index a { gap: 6px; padding: 18px 20px; }
+  .pdf-band { flex-direction: column; align-items: flex-start; }
+  .pdf-lead { grid-template-rows: 240px auto; }
+}
+
+@media (max-width: 560px) {
+  .pdf-ledger { grid-template-columns: 1fr; }
+  .pdf-triad > div { grid-template-columns: 1fr; }
+  .pdf-stack article { grid-template-columns: 92px 1fr; }
+  .pdf-stack img { width: 92px; height: 78px; }
+  .pdf-wordmark b { font-size: 25px; }
+  .pdf-masthead-tools .pdf-cta { display: none; }
+  .pdf-ticker a { display: none; }
+  .pdf-burger-label { display: none; }
+  .pdf-burger { padding: 10px 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pdf-shell *,
+  .pdf-inner * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+@media print {
+  .pdf-masthead,
+  .pdf-ticker,
+  .pdf-drawer,
+  .pdf-drawer-dim,
+  .pdf-band,
+  .mail-subscribe { display: none !important; }
+  .pdf-shell,
+  .pdf-inner { background: #fff; }
+}

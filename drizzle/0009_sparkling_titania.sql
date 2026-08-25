@@ -1,0 +1,1 @@
+ALTER TABLE `site_pages` ADD `features_json` text DEFAULT '[]' NOT NULL;

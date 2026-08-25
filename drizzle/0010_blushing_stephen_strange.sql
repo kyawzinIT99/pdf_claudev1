@@ -1,0 +1,1 @@
+ALTER TABLE `site_pages` ADD `about_json` text DEFAULT '{}' NOT NULL;
