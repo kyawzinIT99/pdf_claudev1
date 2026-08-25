@@ -1,0 +1,187 @@
+{
+  "name": "PDF News Ingest",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 30
+            }
+          ]
+        }
+      },
+      "id": "a1000000-0000-4000-8000-000000000001",
+      "name": "Every 30 minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -460,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Edit this list to add or remove sources. No other node needs changing.\n// Every URL was verified on 25 Aug 2026 to return a live feed to a\n// SERVER-SIDE client (which is what n8n is).\n//\n// Deliberately NOT included - these block server-side fetches and would fail\n// silently inside n8n:\n//   The Irrawaddy    https://www.irrawaddy.com/feed          403 Cloudflare\n//   Frontier Myanmar https://www.frontiermyanmar.net/en/feed/ 403 Cloudflare\n//   Mizzima          https://mizzima.com/feed                 403 Cloudflare\n//   ReliefWeb RSS    https://reliefweb.int/country/mmr/rss.xml 406 bot block\n//   ReliefWeb API    api.reliefweb.int/v2                      403, needs a\n//                    registered appname - apply at reliefweb.int/help/api\nconst feeds = [\n  { source: 'Myanmar Now',    feedUrl: 'https://myanmar-now.org/en/feed/' },\n  { source: 'Myanmar Now (Burmese)', feedUrl: 'https://myanmar-now.org/mm/feed/' },\n  { source: 'DVB',            feedUrl: 'https://english.dvb.no/feed' },\n  { source: 'RFA (Burmese)',  feedUrl: 'https://www.rfa.org/burmese/rss2.xml' },\n  { source: 'BNI Online',     feedUrl: 'https://www.bnionline.net/en/rss.xml' }\n];\n\nreturn feeds.map((feed) => ({ json: feed }));"
+      },
+      "id": "a1000000-0000-4000-8000-000000000002",
+      "name": "Feed list",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.feedUrl }}",
+        "options": {}
+      },
+      "id": "a1000000-0000-4000-8000-000000000003",
+      "name": "Read feed",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.1,
+      "position": [
+        -20,
+        0
+      ],
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": false,
+      "notes": "One source failing must not stop the others."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Map feed items onto the exact contract POST /api/posts enforces, and drop\n// anything not relevant. Length caps mirror app/api/posts/route.ts so the\n// website never rejects an item for being too long.\n\nconst MAX_AGE_DAYS = 3;\nconst MAX_PER_RUN = 25;\n\n// Attribution is derived from the article's own hostname. Do NOT read it from\n// the Feed list node: the RSS node fans one feed out into many items, so item\n// pairing is unreliable and every item would inherit the first feed's name.\n//\n// `keywordFilter` matters. Every outlet below is Myanmar-dedicated, so their\n// items are in scope by definition. Applying an English keyword filter to\n// them would silently discard every Burmese-language article, since Burmese\n// copy never contains the string \"Myanmar\". Only set keywordFilter: true for\n// a general or global feed where filtering is genuinely needed.\nconst SOURCES = [\n  { match: /myanmar-now\\.org$/i, source: 'Myanmar Now', category: 'News',        keywordFilter: false },\n  { match: /dvb\\.no$/i,          source: 'DVB',         category: 'News',        keywordFilter: false },\n  { match: /rfa\\.org$/i,         source: 'RFA',         category: 'News',        keywordFilter: false },\n  { match: /bnionline\\.net$/i,   source: 'BNI Online',  category: 'News',        keywordFilter: false },\n  { match: /reliefweb\\.int$/i,   source: 'ReliefWeb',   category: 'Humanitarian', keywordFilter: false }\n];\n\n// Only applied to sources with keywordFilter: true.\nconst MUST_MATCH = /myanmar|burma|burmese|rohingya|rakhine|kachin|karen|karenni|chin state|shan|sagaing|magway|yangon|mandalay|naypyidaw|junta|tatmadaw|coup/i;\n\nconst strip = (html) => String(html || '')\n  .replace(/<[^>]*>/g, ' ')\n  .replace(/&nbsp;/g, ' ')\n  .replace(/&amp;/g, '&')\n  .replace(/&quot;/g, '\"')\n  .replace(/&#39;/g, \"'\")\n  .replace(/&lt;/g, '<')\n  .replace(/&gt;/g, '>')\n  .replace(/\\s+/g, ' ')\n  .trim();\n\nconst clamp = (value, max) => {\n  const text = strip(value);\n  if (text.length <= max) return text;\n  return text.slice(0, max - 1).replace(/\\s+\\S*$/, '') + '…';\n};\n\nconst cutoff = Date.now() - MAX_AGE_DAYS * 24 * 60 * 60 * 1000;\nconst out = [];\nconst seen = new Set();\n\nfor (const item of $input.all()) {\n  const rss = item.json;\n\n  const title = clamp(rss.title, 140);\n  const link = String(rss.link || rss.guid || '').trim();\n  if (!title || !/^https?:\\/\\//i.test(link)) continue;\n  if (seen.has(link)) continue;\n\n  let host = '';\n  try { host = new URL(link).hostname.replace(/^www\\./i, ''); } catch { continue; }\n  const known = SOURCES.find((entry) => entry.match.test(host));\n  const source = known ? known.source : host;\n  const category = known ? known.category : 'News';\n\n  const published = Date.parse(rss.isoDate || rss.pubDate || '') || 0;\n  if (published && published < cutoff) continue;\n\n  const summary = clamp(rss.contentSnippet || rss.content || rss.description, 380);\n\n  if ((!known || known.keywordFilter) && !MUST_MATCH.test(title + ' ' + summary)) continue;\n\n  seen.add(link);\n\n  // We summarise and link with attribution. We do not republish full articles.\n  out.push({\n    json: {\n      dedupeKey: link,\n      title,\n      excerpt: clamp(summary + ' (Source: ' + source + ')', 420),\n      body: clamp(\n        summary +\n        '\\n\\nSource: ' + source +\n        '\\nRead the original: ' + link +\n        '\\n\\nIngested automatically as a draft. Review, verify and edit before publishing.',\n        20000\n      ),\n      category: clamp(category, 40),\n      placement: 'stories',\n      status: 'draft',\n      channels: ['Website'],\n      author: source + ' (via automated ingest)',\n      sourceUrl: link,\n      publishedAt: published ? new Date(published).toISOString() : null\n    }\n  });\n}\n\nout.sort((a, b) => String(b.json.publishedAt || '').localeCompare(String(a.json.publishedAt || '')));\nreturn out.slice(0, MAX_PER_RUN);"
+      },
+      "id": "a1000000-0000-4000-8000-000000000004",
+      "name": "Normalise and filter",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        200,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "removeItemsSeenInPreviousExecutions",
+        "logic": "removeItemsWithAlreadySeenKeyValues",
+        "dedupeValue": "={{ $json.dedupeKey }}",
+        "options": {}
+      },
+      "id": "a1000000-0000-4000-8000-000000000005",
+      "name": "Skip already ingested",
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        420,
+        0
+      ],
+      "notes": "Keyed on the article link, so an item is never drafted twice."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.PDF_SITE_ORIGIN }}/api/posts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-admin-token",
+              "value": "={{ $env.PDF_ADMIN_WRITE_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ title: $json.title, excerpt: $json.excerpt, body: $json.body, category: $json.category, placement: $json.placement, status: 'draft', channels: $json.channels, author: $json.author }) }}",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 5,
+              "batchInterval": 1000
+            }
+          },
+          "timeout": 15000
+        }
+      },
+      "id": "a1000000-0000-4000-8000-000000000006",
+      "name": "Create draft on PDF site",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        640,
+        0
+      ],
+      "onError": "continueRegularOutput",
+      "notes": "status is hard-coded to draft. This workflow must never publish."
+    }
+  ],
+  "connections": {
+    "Every 30 minutes": {
+      "main": [
+        [
+          {
+            "node": "Feed list",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Feed list": {
+      "main": [
+        [
+          {
+            "node": "Read feed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read feed": {
+      "main": [
+        [
+          {
+            "node": "Normalise and filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalise and filter": {
+      "main": [
+        [
+          {
+            "node": "Skip already ingested",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Skip already ingested": {
+      "main": [
+        [
+          {
+            "node": "Create draft on PDF site",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}
