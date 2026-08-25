@@ -44,20 +44,20 @@ const committee: CommitteeMember[] = [
 ];
 
 export const defaultAboutProfile: AboutProfile = {
-  historyEyebrow: "Why this platform exists",
-  historyTitle: "A public home for civilian relief and solidarity.",
+  historyEyebrow: "Why we exist",
+  historyTitle: "Born from the coup, built for the people it harmed.",
   historyBody:
-    "After Myanmar’s military coup, communities inside the country and in the diaspora needed a trustworthy place to publish care, not rumour. PDF is a civilian humanitarian website: administrators edit pages, stories, giving figures, events and galleries, and the public site shows only what they approve.\n\nThis platform keeps the same staff Admin Panel, publishing APIs and n8n automations as the shared community template, with a distinct public design for PDF.\n\nReplace this history, legal name, contacts and committee list in Admin → page settings. Nothing here is a live payment or combat channel.",
+    "On 1 February 2021 the military seized power in Myanmar and took the country from its people. What followed was not an abstraction: homes shelled, villages emptied, clinics and schools closed, parents jailed, and millions pushed into hunger and flight. PDF was formed in answer to that — a civilian humanitarian community that carries help to the people the coup has hurt.\n\nWe hold two things at once, and we do not pretend otherwise. We care for people: food, shelter, medical support, schooling and small dignities, given on need alone and never on ethnicity, faith, region or affiliation. And we oppose the coup: we refuse to treat military rule as normal, we record what it has cost civilians, and we say so publicly. Care without truth is charity that helps the perpetrator; truth without care is only noise.\n\nWe are unarmed and we take no part in combat. We are not a government, a party, or an armed organisation, and we do not speak for any. Our work is relief, documentation and community — carried out with the consent of the people in it.\n\nWe publish what we do so it can be checked. Figures, photographs, appeals and follow-ups appear only after review, because a community asking for trust owes the people a record it can be held to.",
   formed: "1 February 2021",
   incorporated: "To be published",
   legalName: "PDF Myanmar Relief",
   abn: "To be published",
-  focusEyebrow: "What we hold",
-  focusTitle: "Dignity, verified updates and practical care.",
+  focusEyebrow: "What we stand on",
+  focusTitle: "Relief for civilians. A record against the coup.",
   focuses: [
-    { title: "Civilian relief", description: "Practical support coordinated with trusted community partners." },
-    { title: "Public record", description: "Stories, certificates and figures published with consent and review." },
-    { title: "Community gatherings", description: "Events and galleries that keep people connected across distance." },
+    { title: "Civilian relief", description: "Food, shelter, medical support and schooling for families displaced or impoverished by military rule — given on need alone." },
+    { title: "Documenting the cost", description: "What the coup has done to civilians, recorded with consent and published so it cannot be quietly erased." },
+    { title: "Community that holds", description: "Gatherings, culture and learning that keep people connected across displacement, borders and years." },
   ],
   committeeEyebrow: "People who serve",
   committeeTitle: "Public contacts.",
@@ -67,7 +67,7 @@ export const defaultAboutProfile: AboutProfile = {
   phone: "To be published",
   contactEyebrow: "Contact PDF",
   contactTitle: "Start with a private enquiry.",
-  sourceNote: "Default copy for the PDF public site. Administrators should replace this with organisation-approved text.",
+  sourceNote: "Starting copy for the PDF public site. Administrators can rewrite every line of this page in Admin → Pages → About.",
   committee,
 };
 

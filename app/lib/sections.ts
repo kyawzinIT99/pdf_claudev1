@@ -31,14 +31,14 @@ export const sectionDefinitions: Record<SectionKey, SectionDefinition> = {
     key: "about",
     label: "About",
     eyebrow: "Who we are",
-    title: "A civilian network. A public record of care.",
+    title: "We care for people, and we do not accept the coup.",
     summary:
-      "PDF is a humanitarian community platform standing with people affected by Myanmar’s military coup. We centre civilian dignity, verified information and accountable support.",
-    statement: "People first. No propaganda. Care that can be shown.",
+      "PDF is a civilian humanitarian community standing with people across Myanmar since the military seized power on 1 February 2021. We deliver practical care to families the coup has displaced, injured and impoverished — and we say plainly that military rule has no legitimacy. We are unarmed, we take no part in combat, and we answer to the communities we serve.",
+    statement: "Care for people. Refuse the coup. Show the record.",
     features: [
-      { number: "01", title: "Dignity", description: "Civilian lives, families and communities remain at the centre of every page." },
-      { number: "02", title: "Truth", description: "Public copy, photos and figures are published only after administrator review." },
-      { number: "03", title: "Solidarity", description: "Diaspora and local partners coordinate relief, culture and civic care." },
+      { number: "01", title: "People before politics", description: "Relief reaches civilians on need alone — never on ethnicity, faith, region or affiliation." },
+      { number: "02", title: "Against the coup", description: "We are openly anti-coup: we document what military rule has cost civilians and we refuse to normalise it." },
+      { number: "03", title: "Nothing hidden", description: "Every figure, photograph and appeal is published only after review, so our record can be checked." },
     ],
   },
   "our-work": {

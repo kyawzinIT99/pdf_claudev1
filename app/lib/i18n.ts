@@ -224,14 +224,14 @@ export const sectionLocales: Record<PublicLanguage, Record<SectionKey, SectionLo
     about: {
       label: "About",
       eyebrow: "Who we are",
-      title: "A civilian network. A public record of care.",
+      title: "We care for people, and we do not accept the coup.",
       summary:
-        "PDF is a humanitarian community platform standing with people affected by Myanmar’s military coup. We centre civilian dignity, verified information and accountable support.",
-      statement: "People first. No propaganda. Care that can be shown.",
+        "PDF is a civilian humanitarian community standing with people across Myanmar since the military seized power on 1 February 2021. We deliver practical care to families the coup has displaced, injured and impoverished — and we say plainly that military rule has no legitimacy. We are unarmed, we take no part in combat, and we answer to the communities we serve.",
+      statement: "Care for people. Refuse the coup. Show the record.",
       features: [
-        { number: "01", title: "Dignity", description: "Civilian lives, families and communities remain at the centre of every page." },
-        { number: "02", title: "Truth", description: "Public copy, photos and figures are published only after administrator review." },
-        { number: "03", title: "Solidarity", description: "Diaspora and local partners coordinate relief, culture and civic care." },
+        { number: "01", title: "People before politics", description: "Relief reaches civilians on need alone — never on ethnicity, faith, region or affiliation." },
+        { number: "02", title: "Against the coup", description: "We are openly anti-coup: we document what military rule has cost civilians and we refuse to normalise it." },
+        { number: "03", title: "Nothing hidden", description: "Every figure, photograph and appeal is published only after review, so our record can be checked." },
       ],
     },
     "our-work": {
@@ -317,14 +317,14 @@ export const sectionLocales: Record<PublicLanguage, Record<SectionKey, SectionLo
     about: {
       label: "အကြောင်း",
       eyebrow: "ကျွန်ုပ်တို့ ဘယ်သူလဲ",
-      title: "အရပ်သား ကွန်ရက်။ စောင့်ရှောက်မှု၏ အများပြည်သူ မှတ်တမ်း။",
+      title: "ပြည်သူကို စောင့်ရှောက်သည်၊ စစ်အာဏာသိမ်းမှုကို လက်မခံပါ။",
       summary:
-        "PDF သည် မြန်မာ စစ်အာဏာသိမ်းမှုကြောင့် ထိခိုက်သော ပြည်သူများနှင့်အတူ ရပ်တည်သော လူသားချင်းစာနာမှု ပလက်ဖောင်းဖြစ်သည်။ အရပ်သား ဂုဏ်သိက္ခာ၊ အတည်ပြု အချက်အလက်နှင့် တာဝန်ယူသော အထောက်အပံ့ကို ဗဟိုပြုသည်။",
-      statement: "လူကို ဦးစားပေးသည်။ ဝါဒဖြန့်မှု မဟုတ်။ ပြသနိုင်သော စောင့်ရှောက်မှု။",
+        "PDF သည် ၂၀၂၁ ခုနှစ် ဖေဖော်ဝါရီ ၁ ရက်တွင် စစ်တပ်က အာဏာသိမ်းယူပြီးနောက် မြန်မာနိုင်ငံတစ်ဝှမ်းရှိ ပြည်သူများနှင့်အတူ ရပ်တည်နေသော အရပ်သား လူသားချင်းစာနာမှု အသိုက်အဝန်း ဖြစ်သည်။ အာဏာသိမ်းမှုကြောင့် နေရပ်စွန့်ခွာရသူ၊ ဒဏ်ရာရသူနှင့် ဆင်းရဲမွဲတေသွားသော မိသားစုများအတွက် လက်တွေ့ အထောက်အပံ့ ပေးအပ်ပြီး၊ စစ်အုပ်ချုပ်မှုတွင် တရားဝင်မှု မရှိကြောင်း ပွင့်လင်းစွာ ပြောဆိုသည်။ ကျွန်ုပ်တို့သည် လက်နက်မကိုင်ပါ၊ တိုက်ပွဲများတွင် မပါဝင်ပါ။",
+      statement: "ပြည်သူကို စောင့်ရှောက်ပါ။ အာဏာသိမ်းမှုကို ငြင်းဆိုပါ။ မှတ်တမ်းကို ပြပါ။",
       features: [
-        { number: "01", title: "ဂုဏ်သိက္ခာ", description: "အရပ်သား ဘဝ၊ မိသားစုနှင့် လူထုသည် စာမျက်နှာတိုင်း၏ ဗဟိုတွင် ရှိသည်။" },
-        { number: "02", title: "အမှန်တရား", description: "အများပြည်သူ စာသား၊ ဓာတ်ပုံနှင့် ကိန်းဂဏန်းများကို စီမံခန့်ခွဲသူ စစ်ဆေးပြီးမှသာ ထုတ်ပြန်သည်။" },
-        { number: "03", title: "စည်းလုံးမှု", description: "ပြည်ပရောက်နှင့် ပြည်တွင်း မိတ်ဖက်များက ကယ်ဆယ်ရေး၊ ယဉ်ကျေးမှုနှင့် လူမှု စောင့်ရှောက်မှုကို ညှိနှိုင်းသည်။" },
+        { number: "01", title: "ပါတီနိုင်ငံရေးထက် ပြည်သူ", description: "ကယ်ဆယ်ရေးသည် လိုအပ်ချက်အပေါ်သာ အခြေခံသည် — လူမျိုး၊ ဘာသာ၊ ဒေသ သို့မဟုတ် နောက်ခံအဖွဲ့အစည်းအပေါ် အခြေမခံပါ။" },
+        { number: "02", title: "အာဏာသိမ်းမှုကို ဆန့်ကျင်သည်", description: "စစ်အုပ်ချုပ်မှုက အရပ်သားများအား နစ်နာစေခဲ့သည်များကို မှတ်တမ်းတင်ပြီး ၎င်းကို ပုံမှန်အဖြစ် လက်မခံပါ။" },
+        { number: "03", title: "ဖုံးကွယ်မှု မရှိ", description: "ကိန်းဂဏန်း၊ ဓာတ်ပုံနှင့် အလှူခံစာတိုင်းကို စစ်ဆေးပြီးမှသာ ထုတ်ပြန်သဖြင့် ကျွန်ုပ်တို့၏ မှတ်တမ်းကို စစ်ဆေးနိုင်သည်။" },
       ],
     },
     "our-work": {
@@ -410,14 +410,14 @@ export const sectionLocales: Record<PublicLanguage, Record<SectionKey, SectionLo
     about: {
       label: "About",
       eyebrow: "Who we are",
-      title: "A civilian network. A public record of care.",
+      title: "We care for people, and we do not accept the coup.",
       summary:
-        "PDF is a humanitarian community platform standing with people affected by Myanmar’s military coup. We centre civilian dignity, verified information and accountable support.",
-      statement: "People first. No propaganda. Care that can be shown.",
+        "PDF is a civilian humanitarian community standing with people across Myanmar since the military seized power on 1 February 2021. We deliver practical care to families the coup has displaced, injured and impoverished — and we say plainly that military rule has no legitimacy. We are unarmed, we take no part in combat, and we answer to the communities we serve.",
+      statement: "Care for people. Refuse the coup. Show the record.",
       features: [
-        { number: "01", title: "Dignity", description: "Civilian lives, families and communities remain at the centre of every page." },
-        { number: "02", title: "Truth", description: "Public copy, photos and figures are published only after administrator review." },
-        { number: "03", title: "Solidarity", description: "Diaspora and local partners coordinate relief, culture and civic care." },
+        { number: "01", title: "People before politics", description: "Relief reaches civilians on need alone — never on ethnicity, faith, region or affiliation." },
+        { number: "02", title: "Against the coup", description: "We are openly anti-coup: we document what military rule has cost civilians and we refuse to normalise it." },
+        { number: "03", title: "Nothing hidden", description: "Every figure, photograph and appeal is published only after review, so our record can be checked." },
       ],
     },
     "our-work": {
