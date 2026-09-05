@@ -101,10 +101,10 @@ function validSettings(settings: HomePageSettings) {
         pathway.href.length <= 500 &&
         isSafeHref(pathway.href),
     ) &&
-    home.telegramTraining.title.length > 0 &&
-    home.telegramTraining.description.length > 0 &&
-    home.telegramTraining.cta.length > 0 &&
-    isSafeHref(home.telegramTraining.url)
+    settings.telegramTraining.title.length > 0 &&
+    settings.telegramTraining.description.length > 0 &&
+    settings.telegramTraining.cta.length > 0 &&
+    isSafeHref(settings.telegramTraining.url)
   );
 }
 

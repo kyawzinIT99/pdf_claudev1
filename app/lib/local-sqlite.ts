@@ -1,6 +1,6 @@
 import { mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { DatabaseSync, type StatementSync } from "node:sqlite";
+import { DatabaseSync, type SQLInputValue, type StatementSync } from "node:sqlite";
 
 function sqlitePath() {
   const custom = process.env.LOCAL_SQLITE_PATH?.trim();
@@ -9,7 +9,7 @@ function sqlitePath() {
 }
 
 class SqliteStatement implements D1PreparedStatement {
-  private values: unknown[] = [];
+  private values: SQLInputValue[] = [];
 
   constructor(
     private db: DatabaseSync,
@@ -17,7 +17,7 @@ class SqliteStatement implements D1PreparedStatement {
   ) {}
 
   bind(...values: unknown[]) {
-    this.values = values;
+    this.values = values as SQLInputValue[];
     return this;
   }
 

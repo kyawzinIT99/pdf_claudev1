@@ -180,7 +180,6 @@ export async function POST(request: Request) {
     kind,
     name,
     email,
-    organisation,
     location,
     message,
     consent: true,

@@ -61,7 +61,7 @@ function livePlatformName(platform?: LivePlatform) {
 
 function watchLabelFor(
   platform: LivePlatform | undefined,
-  ui: (typeof eventsUi)["en"],
+  ui: (typeof eventsUi)[keyof typeof eventsUi],
 ) {
   if (platform === "tiktok") return ui.watchTiktok;
   if (platform === "youtube") return ui.watchYouTube;

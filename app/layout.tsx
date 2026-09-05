@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import "./globals.css";
 import "./pdf-shell.css";
+import "./pdf-home.css";
 import "./admin-shell.css";
 
 export async function generateMetadata(): Promise<Metadata> {
